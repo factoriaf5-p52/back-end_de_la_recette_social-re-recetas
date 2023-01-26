@@ -4,31 +4,49 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 import { Model } from 'mongoose';
+import { Request } from 'express';
+import { hash } from 'bcrypt';
+import { EncryptService } from 'src/tools/encrypt.service';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(User.name)
-    private readonly userModel: Model<UserDocument>,
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+    private encryptService: EncryptService,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    //to-do encryption of password
+    const hashPassword = await this.encryptService.encrypt(
+      createUserDto.password,
+    );
+    createUserDto.password = hashPassword;
+
     return this.userModel.create(createUserDto);
   }
 
-  findAll() {
-    return this.userModel.find().exec();
+  async findAll(request: Request): Promise<User[]> {
+    return this.userModel
+      .find(request.query)
+      .setOptions({ sanitizeFilter: true })
+      .exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+    return this.userModel.findOne({ _id: id }).exec();
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async findOneByEmail(email: string):  Promise<User> {
+    return this.userModel.findOne( { email });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    return this.userModel.findOneAndUpdate({ _id: id }, updateUserDto, {
+      new: true,
+    });
+  }
+
+  async remove(id: string) {
+    return this.userModel.findByIdAndRemove({ _id: id }).exec();
   }
 }

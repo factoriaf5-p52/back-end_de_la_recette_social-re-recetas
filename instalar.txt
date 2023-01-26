@@ -31,3 +31,5 @@ import,
 nest g resource
 
 min 30
+
+mongoose --> hooks (middleware)

@@ -21,15 +21,15 @@ export class RecipesService {
     return this.recipeModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} recipe`;
+  findOne(id: string) {
+    return this.recipeModel.findOne({ _id: id }).exec();
   }
 
-  update(id: number, updateRecipeDto: UpdateRecipeDto) {
+  update(id: string, updateRecipeDto: UpdateRecipeDto) {
     return `This action updates a #${id} recipe`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} recipe`;
+  remove(id: string) {
+    return this.recipeModel.findByIdAndRemove({ _id: id }).exec();
   }
 }
