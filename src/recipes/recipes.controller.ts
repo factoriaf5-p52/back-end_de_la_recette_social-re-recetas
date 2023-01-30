@@ -27,7 +27,7 @@ export class RecipesController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return this.recipesService.findOne(+id);
+    return this.recipesService.findOne(id);
   }
 
   @Patch(':id')
@@ -35,11 +35,11 @@ export class RecipesController {
     @Param('id') id: string,
     @Body() updateRecipeDto: UpdateRecipeDto,
   ) {
-    return this.recipesService.update(+id, updateRecipeDto);
+    return this.recipesService.update(id, updateRecipeDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return this.recipesService.remove(+id);
+    return this.recipesService.remove(id);
   }
 }

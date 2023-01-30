@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { User } from 'src/users/schema/user.schema';
+import { User } from 'src/users/schemas/user.schema';
 import { IUser } from 'src/users/interfaces/users.interface';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
