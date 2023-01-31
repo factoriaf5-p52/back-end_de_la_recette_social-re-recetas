@@ -23,26 +23,26 @@ export class MenusController {
     return this.menusService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: ObjectId) {
+  @Get('menu/:id')
+  async findOne(@Param('id') id: string) {
     return this.menusService.findOne(id);
   }
   
   @UseGuards(JwtAuthGuard)
-  @Patch(':id')
-  async update(@Param('id') id: ObjectId, @Body() updateMenuDto: UpdateMenuDto) {
+  @Patch('menu/:id')
+  async update(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto) {
     return this.menusService.update(id, updateMenuDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async removeMenu(@Param('id') id: ObjectId) {
+  async removeMenu(@Param('id') id: string) {
     return this.menusService.removeMenu(id);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete(':id')
-  async removeRecipeFromMenu(@Param('id') menuId: ObjectId, recipeId: ObjectId) {
+  @Delete(':id/recipe/:id')
+  async removeRecipeFromMenu(@Param('menuId, recipeId') menuId: string, recipeId: string) {
     return this.menusService.removeRecipeFromMenu(menuId, recipeId);
   }
 }

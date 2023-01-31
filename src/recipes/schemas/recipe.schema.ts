@@ -20,8 +20,8 @@ export class Recipe {
   @Prop()
   description: string;
 
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "User" })
-  // author: ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "User" })
+  author: ObjectId;
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: "Ingredient" }])
   ingredients: Array<ObjectId>;

@@ -21,26 +21,26 @@ export class MenusService {
       .exec();
   }
 
-  async findOne(id: ObjectId) {
+  async findOne(id: string) {
     return this.menuModel
       .findOne({ _id: id }, { _id: 0, __v: 0, is_private: 0 })
-      .populate('recipe', '-_id -__v  -author -description')
+      .populate('recipes', '-_id -__v  -author -description')
       .exec();
   }
 
-  async update(id: ObjectId, updateMenuDto: UpdateMenuDto) {
+  async update(id: string, updateMenuDto: UpdateMenuDto) {
     return this.menuModel.findOneAndUpdate({ _id: id }, updateMenuDto, {
       new: true,
     });
   }
 
-  async removeMenu(id: ObjectId) {
+  async removeMenu(id: string) {
     return this.menuModel.findByIdAndRemove({ _id: id }).exec();
   }
 
-  async removeRecipeFromMenu (menuId: ObjectId, recipeId: ObjectId)
+  async removeRecipeFromMenu (menuId: string, recipeId: string)
    {
-    return this.menuModel.updateOne({ _id: menuId}, { $pull: {recipes: recipeId}})
+    return this.menuModel.updateOne({ _id: menuId}, {$pull: {recipes: [recipeId]}})
     .exec();
   }
 }
